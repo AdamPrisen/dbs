@@ -1,11 +1,17 @@
 from flask import Flask
+from flask_restful import Api
+from routes import setup_routes
+from dotenv import load_dotenv
+from db import db
 
 app = Flask(__name__)
+load_dotenv(".env", verbose=True)
+app.config.from_envvar("APPLICATION_SETTINGS")
+api = Api(app)
+db.init_app(app)
 
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+setup_routes(api)
 
 
 if __name__ == '__main__':
